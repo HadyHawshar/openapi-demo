@@ -1,9 +1,12 @@
 openapi: 3.0.3
 
 info:
-  title: JSONPlaceholder
-  description: Free fake API for testing and prototyping.
-  version: 0.1.0
+  version: "1.0"
+  title: "Vbout API"
+  x-logo:
+    url: "https://i.im.ge/2022/09/15/1lJujf.vbout-logo.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Vbout logo"
 
 externalDocs:
   description: "JSONPlaceholder's guide"
