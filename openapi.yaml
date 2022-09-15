@@ -10,7 +10,9 @@ info:
 
 externalDocs:
   description: "Vbout API provides programmatic access to read and write Vbout data. You can use it to synch user information between your own database and Vbout's marketing automation, get prospects information and more. The responses are available in JSON/XML."
-  url: https://jsonplaceholder.typicode.com/guide
+externalDocs:
+  description: "Vbout API in PHP."
+  url: https://developers.vbout.com/quickstart
 
 servers:
 - url: https://jsonplaceholder.typicode.com
