@@ -4,7 +4,12 @@ info:
   version: "1.0"
   title: "Vbout API"
   description: |-
+    # Introduction
     Vbout API provides programmatic access to read and write Vbout data. You can use it to synch user information between your own database and Vbout's marketing automation, get prospects information and more. The responses are available in JSON/XML.
+    # Authentication
+    Vbout offers authentication through:
+      - API Key
+      - An Application Key is generated from your Account Settings and activated through Vbout Connect. This key gives limited access to your account and can be deleted whenever you want to prevent access.
   x-logo:
     url: "https://i.im.ge/2022/09/15/1lJujf.vbout-logo.png"
     backgroundColor: "#FFFFFF"
@@ -15,10 +20,103 @@ externalDocs:
   url: https://developers.vbout.com/quickstart
 
 servers:
-- url: https://jsonplaceholder.typicode.com
-  description: JSONPlaceholder
+- url: https://api.vbout.com/1
+  description: Resource URL
+  
+#waiting until we finish all collections
+# Collection grouping
+#x-tagGroups:
+  #- name: Application services
+   # tags:
+     # - Application
+     
+
 
 paths:
+#Application
+  "/app/me":
+    get:
+      tags: ["Application"]
+      summary: Application services
+      responses:
+        "200":
+          description: All went well
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/app"
+
+#including request responses samples
+      x-codeSamples:
+        - lang: 'cUrl'
+          source: |
+            GET https://api.vbout.com/1/app/me.json?key={YOUR_API_ID}
+        - lang: PHP
+          source: |
+            <?php
+              require_once('../PATH/TO/services/ApplicationWS.php');
+              $user_key = array('api_key' => '{YOUR_API_KEY}');
+              $app = new ApplicationWS($user_key);
+              $results = $app->getBusinessInfo();
+              print_r($results);
+            ?>
+
+# Social Media endpoints
+
+   #getpost
+  "/getpost":
+    get:
+      tags: ["Social Media"]
+      summary: get post summary
+      responses:
+         "200":
+           description: successful operation
+           content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getpost"  
+      description: |- 
+        **Authentication:** `required`/**Format**: `XML|JSON` 
+      parameters:
+        - name: ID
+          in: query
+          description: |- 
+           The ID of the post/
+           Possible Values: (ID)      
+          required: true
+          schema:
+            type: integer
+            default: None
+        - name: Channel
+          in: query
+          description: |-
+             The channel where the post is created/Possible Values: facebook | twitter | linkedin
+          required: true
+          schema:
+            type: String
+            default: None
+
+      #sample requests-getpost
+      x-codeSamples:
+        - lang: 'cUrl'
+          source: |
+            GET https://api.vbout.com/1/socialmedia/getpost.json?key={YOUR_API_ID}&id=682&channel=facebook
+        - lang: PHP
+          source: |
+            <?php
+               require_once('../PATH/TO/services/SocialMediaWS.php');
+               $user_key = array('api_key' => '{YOUR_API_KEY}');
+               $app = new SocialMediaWS($user_key);
+               $params = array(
+               'id' => '682',
+               'channel' => 'facebook',
+            );
+              $results = $app->getMyPost( $params );
+              print_r($results);
+              ?>
+              
+      #security:
+        #- api_key: []      
   "/posts":
     get:
       tags: ["posts"]
@@ -139,3 +237,70 @@ components:
         userId:
           type: number
           description: ID of the user who created the post
+
+    #Generate 'example response' and 'response schema'
+    app:
+      type: object
+      properties:
+        Business:
+          description: User supplied business
+          type: object
+          example: {    "businessName": "Loft Hotels",    "contactName": "Paul Downy",    "phoneNumber": "212-400-7133",    "vboutName": "Loft-corporate",    "package": "Franchise"}
+# Social media-Getpost
+    getpost:
+      type: object
+      properties:
+        item:
+          type: object
+          properties:
+            id:
+             description: post id
+             type: integer
+             example: "682"
+            title:
+             description: post title
+             type: string
+             example: "OSV Treats & Chews provides a big nutritional boost of phytonutrients & antioxidants from fruits & vegetables; tomatoes, spinach & carrots! http://www.clearconsciencepet.com/osv-meaty-treats/"
+        datetime:
+          description: User first name
+          type: string
+          example: "05/16/2013 10:34 AM"
+        Item:
+          type: object
+          properties:
+            uid:
+              description: user's platform ID
+              type: integer
+              example:  "0"
+
+        type:
+             description: Platform name
+             type: string
+             example:  "facebook"
+        image:
+             description: Image of the post
+             type: string
+             example:  ""
+
+        profile:
+             description: profile number
+             type: integer
+             example: "166346373390497"
+        
+
+
+
+
+
+
+
+
+  #securitySchemes:
+    #api_key:
+      #description: >
+       # For this sample, you can use the api key `YOUR_API_ID` to test the
+       # API.
+      #type: apiKey
+      #name: api_key 
+    
+   
