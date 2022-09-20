@@ -114,7 +114,64 @@ paths:
               $results = $app->getMyPost( $params );
               print_r($results);
               ?>
-              
+    #addpost
+  "/addpost":
+    post:
+      tags: ["Social Media"]
+      summary: add post summary
+      responses:
+         "200":
+           description: successful operation
+        #   content:
+        #    application/json:
+        #     schema:
+        #       $ref: "#/components/schemas/getpost"  
+      description: |- 
+        **Authentication:** `required`/**Format**: `XML|JSON` 
+      parameters:
+        - name: message
+          in: query
+          description: |- 
+            The post message to be scheduled/sent/**Possible values:**(text)
+          required: true
+          schema:
+            type: String
+            default: None
+        - name: Channel
+          in: query
+          description: |-
+             The channels which the post will be sent to/**Possible Values:** facebook | twitter | linkedin | pinterest | instagram
+          required: true
+          schema:
+            type: String
+            default: None
+        - name: Channelid
+          in: query
+          description: |-
+             The channels which the post will be sent to/**Possible Values:** 1 | 2 | 3 | 4
+          required: true
+          schema:
+            type: integer
+            default: None    
+
+      #sample requests-addpost
+      x-codeSamples:
+        - lang: 'cUrl'
+          source: |
+           POST https://api.vbout.com/1/socialmedia/addpost.json?key={YOUR_API_ID}
+           message=Hello World
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/SocialMediaWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new SocialMediaWS($user_key);
+             $params = array(
+                 'message' => 'Hello World',
+             );
+             $results = $app->AddNewpost( $params );
+             print_r($results);
+             ?>          
       #security:
         #- api_key: []      
   "/posts":
@@ -238,7 +295,7 @@ components:
           type: number
           description: ID of the user who created the post
 
-    #Generate 'example response' and 'response schema'
+    #Application-get /app/me'
     app:
       type: object
       properties:
@@ -246,7 +303,9 @@ components:
           description: User supplied business
           type: object
           example: {    "businessName": "Loft Hotels",    "contactName": "Paul Downy",    "phoneNumber": "212-400-7133",    "vboutName": "Loft-corporate",    "package": "Franchise"}
-# Social media-Getpost
+
+
+# Social media /Getpost
     getpost:
       type: object
       properties:
@@ -272,7 +331,6 @@ components:
               description: user's platform ID
               type: integer
               example:  "0"
-
         type:
              description: Platform name
              type: string
@@ -281,20 +339,11 @@ components:
              description: Image of the post
              type: string
              example:  ""
-
         profile:
              description: profile number
              type: integer
              example: "166346373390497"
-        
-
-
-
-
-
-
-
-
+    
   #securitySchemes:
     #api_key:
       #description: >
