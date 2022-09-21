@@ -168,7 +168,7 @@ paths:
         - name: isscheduled
           in: query
           description:
-             "This flag will make the post to be scheduled for future.\n\n**Possible Values:** `true` | `false`"
+             "This flag will make the post to be scheduled for future.\n\n**Possible Values:** `true | false`"
           schema:
             type: boolean     
             default: false       
@@ -198,7 +198,7 @@ paths:
         - name: trackableLinks
           in: query
           description:
-             "Convert all links inside message to short urls.\n\n**Possible values:**`true` | `false`"
+             "Convert all links inside message to short urls.\n\n**Possible values:**`true | false`"
           schema:
             type: boolean         
             default: false      
