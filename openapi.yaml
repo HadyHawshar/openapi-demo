@@ -178,7 +178,7 @@ paths:
              "Date of the post to be scheduled.\n\n**Format Accepted:**(Date)"
           schema:
             type: date    
-            pattern: ⠀⠀Format:'/m/d/Y | Y-m-d'     
+            pattern: ⠀⠀Format:⠀'/m/d/Y | Y-m-d'     
             default: None    
         - name: scheduledhours
           in: query
@@ -186,7 +186,7 @@ paths:
              "Time of the post to be scheduled.\n\n**Format Accepted:**(Time)"
           schema:
             type: time    
-            pattern: ⠀⠀Format:"HH:MM"     
+            pattern: ⠀⠀Format:⠀"HH:MM"     
             default: None         
         - name: scheduledampm
           in: query
@@ -269,7 +269,7 @@ paths:
             "Date/Time of the post to be scheduled.\n\n**Possible Values:**  (Datetime)"
           schema:
             type: datetime
-            pattern: ⠀⠀Format:"ISO-8601 (Y-m-d H:i:s)"
+            pattern: ⠀⠀Format:⠀"ISO-8601 (Y-m-d H:i:s)"
             default: None 
       #sample requests-addpost
       x-codeSamples:
