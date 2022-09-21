@@ -34,10 +34,10 @@ servers:
 
 paths:
 #Application
-  "/app/me":
+  "/App/Me":
     get:
       tags: ["Application"]
-      summary: Application services
+      summary: Application summary
       responses:
         "200":
           description: All went well
@@ -45,6 +45,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/app"
+      description: 
+       "**Authentication**: `required`
+       \n\n**Format** : `XML | JSON`"                    
 
 #including request responses samples
       x-codeSamples:
@@ -64,7 +67,7 @@ paths:
 # Social Media endpoints
 
    #getpost
-  "/getpost":
+  "/SocialMedia/GetPost":
     get:
       tags: ["Social Media"]
       summary: get post summary
@@ -75,22 +78,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/getpost"  
-      description: |- 
-        **Authentication:** `required`/**Format**: `XML|JSON` 
+      description: 
+       "**Authentication**: `required`
+       \n\n**Format** : `XML | JSON`"           
       parameters:
         - name: ID
           in: query
-          description: |- 
-           The ID of the post/
-           Possible Values: (ID)      
+          description:
+           "The ID of the post.\n\n
+           **Possible Values:** (ID)"    
           required: true
           schema:
             type: integer
             default: None
         - name: Channel
           in: query
-          description: |-
-             The channel where the post is created/Possible Values: facebook | twitter | linkedin
+          description:
+             "The channel where the post is created.\n\n**Possible Values:** facebook | twitter | linkedin"
           required: true
           schema:
             type: String
@@ -115,7 +119,7 @@ paths:
               print_r($results);
               ?>
     #addpost
-  "/addpost":
+  "/SocialMedia/AddPost":
     post:
       tags: ["Social Media"]
       summary: add post summary
@@ -126,74 +130,75 @@ paths:
         #    application/json:
         #     schema:
         #       $ref: "#/components/schemas/getpost"  
-      description: |- 
-        **Authentication:** `required`/**Format**: `XML|JSON` 
+      description: 
+       "**Authentication**: `required`
+       \n\n**Format** : `XML | JSON`"
       parameters:
         - name: message
           in: query
-          description: |- 
-            The post message to be scheduled/sent/**Possible values:**(text)
+          description: 
+            "The post message to be scheduled/sent.\n\n**Possible values:**(text)"
           required: true
           schema:
             type: String
             default: None
         - name: Channel
           in: query
-          description: |-
-             The channels which the post will be sent to/**Possible Values:** facebook | twitter | linkedin | pinterest | instagram
+          description:
+             "The channels which the post will be sent to.\n\n**Possible Values:** facebook | twitter | linkedin | pinterest | instagram"
           required: true
           schema:
             type: String
             default: None
         - name: Channelid
           in: query
-          description: |-
-             The channels which the post will be sent to/**Possible Values:** 1 | 2 | 3 | 4
+          description:
+             "The channels which the post will be sent to\n\n**Possible Values:** 1 | 2 | 3 | 4"
           required: true
           schema:
             type: integer
             default: None 
         - name: photo
           in: query
-          description: |-
-             The photo which will be attached to the post/**Possible Values:** (Link) or (Uploaded Image)
+          description:
+             "The photo which will be attached to the post.\n\n**Possible Values:** (Link) or (Uploaded Image)"
           schema:
             type: String     
             default: None     
         - name: isscheduled
           in: query
-          description: |-
-             This flag will make the post to be scheduled for future/**Possible Values:** `true` | `false`
+          description:
+             "This flag will make the post to be scheduled for future.\n\n**Possible Values:** `true` | `false`"
           schema:
             type: boolean     
             default: false       
         - name: scheduleddate
           in: query
-          description: |-
-             Date of the post to be scheduled/**Format Accepted:**(Date)
+          description:
+             "Date of the post to be scheduled.\n\n**Format Accepted:**(Date)"
           schema:
             type: date    
-            pattern: '/m/d/Y | Y-m-d'     
+            pattern: ⠀⠀Format:'/m/d/Y | Y-m-d'     
             default: None    
         - name: scheduledhours
           in: query
-          description: |-
-             Time of the post to be scheduled/**Format Accepted:**(Time)
+          description:
+             "Time of the post to be scheduled.\n\n**Format Accepted:**(Time)"
           schema:
             type: time    
-            pattern:  /format:"HH:MM"     
+            pattern: ⠀⠀Format:"HH:MM"     
             default: None         
         - name: scheduledampm
           in: query
-          description: |-
-             AMPM of the post to be scheduled/**Possible values:**/AM | PM | am | pm
+          description:
+             "AMPM of the post to be scheduled.\n\n**Possible values:**/AM | PM | am | pm"
           schema:
             type: String         
             default: None           
         - name: trackableLinks
           in: query
-          description: |-
-             Convert all links inside message to short urls/**Possible values:**`true` | `false`
+          description:
+             "Convert all links inside message to short urls.\n\n**Possible values:**`true` | `false`"
           schema:
             type: boolean         
             default: false      
@@ -220,7 +225,7 @@ paths:
         #- api_key: []
 
     #editpost
-  "/editpost":
+  "/SocialMedia/EditPost":
     post:
       tags: ["Social Media"]
       summary: edit post summary
@@ -231,39 +236,40 @@ paths:
         #    application/json:
         #     schema:
         #       $ref: "#/components/schemas/getpost"  
-      description: |- 
-        **Authentication:** `required`/**Format**: `XML|JSON` 
+      description: 
+       "**Authentication**: `required`
+       \n\n**Format** : `XML | JSON`" 
       parameters:
         - name: id
           in: query
-          description: |- 
-            ID of the post message to be edited/sent/**Possible Values:** (ID)
+          description:
+            "ID of the post message to be edited/sent.\n\n**Possible Values:** (ID)"
           required: true
           schema:
             type: integer
             default: None 
         - name: channel
           in: query
-          description: |- 
-           The channel where the post was scheduled/sent/**Possible Values:**  facebook | twitter | linkedin | pinterest | instagram
+          description: 
+           "The channel where the post was scheduled/sent.\n\n**Possible Values:**  facebook | twitter | linkedin | pinterest | instagram"
           required: true
           schema:
             type: String
             default: None 
         - name: message
           in: query
-          description: |- 
-            The post message to be scheduled/sent/**Possible Values:** (Text)
+          description: 
+            "The post message to be scheduled/sent.\n\n**Possible Values:** (Text)"
           schema:
             type: String
             default: None
         - name: scheduleddatetime
           in: query
-          description: |- 
-            Date/Time of the post to be scheduled/**Possible Values:**  (Datetime)
+          description: 
+            "Date/Time of the post to be scheduled.\n\n**Possible Values:**  (Datetime)"
           schema:
             type: datetime
-            pattern: /Format:"ISO-8601 (Y-m-d H:i:s)"
+            pattern: ⠀⠀Format:"ISO-8601 (Y-m-d H:i:s)"
             default: None 
       #sample requests-addpost
       x-codeSamples:
@@ -279,7 +285,7 @@ paths:
       #      <?php
       #       require_once('../PATH/TO/services/SocialMediaWS.php');
   #Deletepost
-  "/deletepost":
+  "/SocialMedia/DeletePost":
     delete:
       tags: ["Social Media"]
       summary: delete post summary
@@ -292,21 +298,22 @@ paths:
         #    application/json:
         #     schema:
         #       $ref: "#/components/schemas/getpost"
-      description: |- 
-        **Authentication:** `required`/**Format**: `XML|JSON` 
+      description: 
+       "**Authentication**: `required`
+       \n\n**Format** : `XML | JSON`"
       parameters:
         - name: id
           in: query
-          description: |- 
-            ID of the post message to be deleted/**Possible Values:** (ID)
+          description:
+            "ID of the post message to be deleted.\n\n**Possible Values:** (ID)"
           required: true
           schema:
             type: integer
             default: None  
         - name: channel
           in: query
-          description: |- 
-            The channels which the post will be sent to/**Possible Values:**  facebook | twitter | linkedin
+          description: 
+            "The channels which the post will be sent to.\n\n**Possible Values:**  facebook | twitter | linkedin"
           schema:
             type: String
             default: None
