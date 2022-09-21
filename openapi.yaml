@@ -48,7 +48,7 @@ paths:
 
 #including request responses samples
       x-codeSamples:
-        - lang: 'cUrl'
+        - lang: 'CURL'
           source: |
             GET https://api.vbout.com/1/app/me.json?key={YOUR_API_ID}
         - lang: PHP
@@ -98,7 +98,7 @@ paths:
 
       #sample requests-getpost
       x-codeSamples:
-        - lang: 'cUrl'
+        - lang: 'CURL'
           source: |
             GET https://api.vbout.com/1/socialmedia/getpost.json?key={YOUR_API_ID}&id=682&channel=facebook
         - lang: PHP
@@ -152,11 +152,55 @@ paths:
           required: true
           schema:
             type: integer
+            default: None 
+        - name: photo
+          in: query
+          description: |-
+             The photo which will be attached to the post/**Possible Values:** (Link) or (Uploaded Image)
+          schema:
+            type: String     
+            default: None     
+        - name: isscheduled
+          in: query
+          description: |-
+             This flag will make the post to be scheduled for future/**Possible Values:** `true` | `false`
+          schema:
+            type: boolean     
+            default: false       
+        - name: scheduleddate
+          in: query
+          description: |-
+             Date of the post to be scheduled/**Format Accepted:**(Date)
+          schema:
+            type: date    
+            pattern: '/m/d/Y | Y-m-d'     
             default: None    
-
+        - name: scheduledhours
+          in: query
+          description: |-
+             Time of the post to be scheduled/**Format Accepted:**(Time)
+          schema:
+            type: time    
+            pattern:  /format:"HH:MM"     
+            default: None         
+        - name: scheduledampm
+          in: query
+          description: |-
+             AMPM of the post to be scheduled/**Possible values:**/AM | PM | am | pm
+          schema:
+            type: String         
+            default: None           
+        - name: trackableLinks
+          in: query
+          description: |-
+             Convert all links inside message to short urls/**Possible values:**`true` | `false`
+          schema:
+            type: boolean         
+            default: false      
+       
       #sample requests-addpost
       x-codeSamples:
-        - lang: 'cUrl'
+        - lang: 'CURL'
           source: |
            POST https://api.vbout.com/1/socialmedia/addpost.json?key={YOUR_API_ID}
            message=Hello World
@@ -173,138 +217,145 @@ paths:
              print_r($results);
              ?>          
       #security:
-        #- api_key: []      
-  "/posts":
-    get:
-      tags: ["posts"]
-      summary: Returns all posts
-      responses:
-        "200":
-          description: All went well
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/post"
+        #- api_key: []
+
+    #editpost
+  "/editpost":
     post:
-      tags: ["posts"]
-      summary: Create a new post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/post"
-        required: true
+      tags: ["Social Media"]
+      summary: edit post summary
       responses:
-        "200":
-          description: A post was created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/post"
-  "/posts/{id}":
-    parameters:
-    - name: id # Must be same as the value in the {}.
-      # Location of the parameter.
-      # Can be `path`, `cookie`, `query` or `header`
-      in: path
-      description: ID of the post
-      # Since this is in the path, the parameter HAS to be required
-      required: true
-      # Defining the type of the parameter
-      schema:
-        # In this case, it is just a string
-        type: string
-    get:
-      tags: ["post"]
-      summary: Get a single post
-      responses:
-        "200":
-          description: All went well
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/post"
-        # But this time, you can also get a 404 response,
-        # which is an empty JSON object.
-        "404":
-          description: Post not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-    put:
-      tags: ["post"]
-      summary: Update a post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/post"
-        required: true
-      responses:
-        "200":
-          description: All went well
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/post"
-        "404":
-          description: Post not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
+         "200":
+           description: successful operation
+        #   content:
+        #    application/json:
+        #     schema:
+        #       $ref: "#/components/schemas/getpost"  
+      description: |- 
+        **Authentication:** `required`/**Format**: `XML|JSON` 
+      parameters:
+        - name: id
+          in: query
+          description: |- 
+            ID of the post message to be edited/sent/**Possible Values:** (ID)
+          required: true
+          schema:
+            type: integer
+            default: None 
+        - name: channel
+          in: query
+          description: |- 
+           The channel where the post was scheduled/sent/**Possible Values:**  facebook | twitter | linkedin | pinterest | instagram
+          required: true
+          schema:
+            type: String
+            default: None 
+        - name: message
+          in: query
+          description: |- 
+            The post message to be scheduled/sent/**Possible Values:** (Text)
+          schema:
+            type: String
+            default: None
+        - name: scheduleddatetime
+          in: query
+          description: |- 
+            Date/Time of the post to be scheduled/**Possible Values:**  (Datetime)
+          schema:
+            type: datetime
+            pattern: /Format:"ISO-8601 (Y-m-d H:i:s)"
+            default: None 
+      #sample requests-addpost
+      x-codeSamples:
+        - lang: 'CURL'
+          source: |
+            POST https://api.vbout.com/1/socialmedia/editpost.json?key={YOUR_API_ID}
+            id=1
+            channel=facebook
+            message=Hello World!
+            scheduleddatetime=2020-10-20 15:30:00
+      #  - lang: PHP
+      #    source: |
+      #      <?php
+      #       require_once('../PATH/TO/services/SocialMediaWS.php');
+  #Deletepost
+  "/deletepost":
     delete:
-      tags: ["post"]
-      summary: Delete a post
+      tags: ["Social Media"]
+      summary: delete post summary
       responses:
         "200":
-          description: All went well
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-        # But this time, you can also get a 404 response,
-        # which is an empty JSON object.
+           description: Deleted successfully
         "404":
-          description: Post not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
+            description: Post not found
+        #   content:
+        #    application/json:
+        #     schema:
+        #       $ref: "#/components/schemas/getpost"
+      description: |- 
+        **Authentication:** `required`/**Format**: `XML|JSON` 
+      parameters:
+        - name: id
+          in: query
+          description: |- 
+            ID of the post message to be deleted/**Possible Values:** (ID)
+          required: true
+          schema:
+            type: integer
+            default: None  
+        - name: channel
+          in: query
+          description: |- 
+            The channels which the post will be sent to/**Possible Values:**  facebook | twitter | linkedin
+          schema:
+            type: String
+            default: None
+      #sample requests-addpost
+      x-codeSamples:
+        - lang: 'CURL'
+          source: |
+           POST https://api.vbout.com/1/socialmedia/deletepost.json?key={YOUR_API_ID}
+           id=1
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/SocialMediaWS.php');	
+             $user_key = array('api_key' => '{YOUR_API_KEY}');	
+             $app = new SocialMediaWS($user_key);
+             $id = '1';
+             $results = $app->removePost($id);
+             print_r($results);
+            ?>                                                  
 
 components:
   schemas:
-    post:
-      type: object
-      properties:
-        id:
-          type: number
-          description: ID of the post
-        title:
-          type: string
-          description: Title of the post
-        body:
-          type: string
-          description: Body of the post
-        userId:
-          type: number
-          description: ID of the user who created the post
-
     #Application-get /app/me'
     app:
       type: object
       properties:
-        Business:
-          description: User supplied business
+        business:
           type: object
-          example: {    "businessName": "Loft Hotels",    "contactName": "Paul Downy",    "phoneNumber": "212-400-7133",    "vboutName": "Loft-corporate",    "package": "Franchise"}
-
-
+          properties:
+            businessname:
+              description: Business name
+              type: String
+              example: "Loft Hotels"
+            contactname:
+              description: Contact name
+              type: String 
+              example: "Paul Downy"
+            phoneNumber:
+              description: Contact phone number
+              type: String
+              example: "212-400-7133"
+            vboutName:
+              description: Contact's vbout name
+              type: String
+              example: "Loft-corporate"
+            package:
+              description: Package name
+              type: String 
+              example: "Franchise"      
 # Social media /Getpost
     getpost:
       type: object
@@ -351,5 +402,6 @@ components:
        # API.
       #type: apiKey
       #name: api_key 
-    
+
+ #Social-media addpost   
    
