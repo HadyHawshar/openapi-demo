@@ -1,5 +1,6 @@
 openapi: 3.0.3
 
+#introduction...
 info:
   version: "1.0"
   title: "Vbout API"
@@ -46,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/app"
       description: 
-       "**Authentication**: `required`
+       "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`"                    
 
 #including request responses samples
@@ -65,12 +66,79 @@ paths:
             ?>
 
 # Social Media endpoints
+  #channels
+  "/SocialMedia/Channels":
+    post:
+      tags: ["Social Media"]
+      summary: Channels Summary
+      responses:
+         "200":
+           description: successful operation
+           content:
+            application/json:
+             schema:
+              $ref: "#/components/schemas/social-channels"
+      description:
+       "**Parameters**: `None`\n\n 
+       **Authentication**: `Required`
+       \n\n**Format** : `XML | JSON`"
+     #sample requests-channels
+      x-codeSamples:
+        - lang: 'CURL'
+          source: |
+            GET https://api.vbout.com/1/socialmedia/channels.json?key={YOUR_API_ID}
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/SocialMediaWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new SocialMediaWS($user_key);
+             $results = $app->getChannels();
+             print_r($results);
+             ?>            
+  #calendar
+  "/SocialMedia/Calendar":
+    post:
+      tags: ["Social Media"]
+      summary: Calendar Summary
+      responses:
+         "200":
+           description: successful operation
+           content:
+            application/json:
+             schema:
+              $ref: "#/components/schemas/social-calendar"
+      description:
+       "**Authentication**: `Required`
+       \n\n**Format** : `XML | JSON`"
+     #sample requests-channels
+      x-codeSamples:
+        - lang: 'CURL'
+          source: |
+           POST https://api.vbout.com/1/socialmedia/calendar.json?key={YOUR_API_ID}
+           channels=all
+           includeposted=true
+        - lang: PHP
+          source: |
+            <?php
+            require_once('../PATH/TO/services/SocialMediaWS.php');
+            $user_key = array('api_key' => '{YOUR_API_KEY}');
+            $app = new SocialMediaWS($user_key);
+            $params = array(
+                'channels' => 'all',
+                'includeposted' => 'true',
+            );
+            $results = $app->getCalendar( $params );
+            print_r($results);
+             ?>
+        
+
 
    #getpost
   "/SocialMedia/GetPost":
     get:
       tags: ["Social Media"]
-      summary: get post summary
+      summary: Get Post Summary
       responses:
          "200":
            description: successful operation
@@ -79,7 +147,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/getpost"  
       description: 
-       "**Authentication**: `required`
+       "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`"           
       parameters:
         - name: ID
@@ -122,7 +190,7 @@ paths:
   "/SocialMedia/AddPost":
     post:
       tags: ["Social Media"]
-      summary: add post summary
+      summary: Add Post Summary
       responses:
          "200":
            description: successful operation
@@ -131,7 +199,7 @@ paths:
         #     schema:
         #       $ref: "#/components/schemas/getpost"  
       description: 
-       "**Authentication**: `required`
+       "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`"
       parameters:
         - name: message
@@ -228,7 +296,7 @@ paths:
   "/SocialMedia/EditPost":
     post:
       tags: ["Social Media"]
-      summary: edit post summary
+      summary: Edit Post Summary
       responses:
          "200":
            description: successful operation
@@ -237,7 +305,7 @@ paths:
         #     schema:
         #       $ref: "#/components/schemas/getpost"  
       description: 
-       "**Authentication**: `required`
+       "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`" 
       parameters:
         - name: id
@@ -288,7 +356,7 @@ paths:
   "/SocialMedia/DeletePost":
     delete:
       tags: ["Social Media"]
-      summary: delete post summary
+      summary: Delete Post Summary
       responses:
         "200":
            description: Deleted successfully
@@ -299,7 +367,7 @@ paths:
         #     schema:
         #       $ref: "#/components/schemas/getpost"
       description: 
-       "**Authentication**: `required`
+       "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`"
       parameters:
         - name: id
@@ -336,7 +404,7 @@ paths:
 
 components:
   schemas:
-    #Application-get /app/me'
+#Application-get /app/me'
     app:
       type: object
       properties:
@@ -410,5 +478,74 @@ components:
       #type: apiKey
       #name: api_key 
 
- #Social-media addpost   
-   
+
+    # Social media /social-channels
+    social-channels:
+      type: object
+      properties:
+        channels:
+          type: object
+          properties:
+            facebook:
+             type: object
+             properties:
+               count:
+                 description: count
+                 type: integer
+                 example: "1"
+               pages:
+                 type: array
+                 items:
+                   - type: object
+                     properties:
+                       id:
+                         type: integer
+                         example: "510584708978405"
+                       name:
+                         type: string
+                         example: "Spotless TV" 
+            twitter:
+             type: object
+             properties:
+               count:
+                 description: count
+                 type: integer
+                 example: "1"
+               profiles:
+                 type: array
+                 items:
+                   - type: object
+                     properties:
+                       id:
+                         type: integer
+                         example: "333248756"
+                       screenname:
+                         type: string
+                         example: "imadrajab"
+                       fullname:
+                         type: string
+                         example: "Imad Rajab"
+            linkedin:
+             type: object
+             properties:
+               count:
+                 description: count
+                 type: integer
+                 example: "0"
+               profiles:
+                 type: array
+                 items:
+                   type: object
+
+ # Social media /calendar
+    social-calendar:
+      type: object
+      properties:
+        item:
+          type: object
+          properties:
+            count:
+             description: count
+             type: integer
+             example: "682"  
+  
