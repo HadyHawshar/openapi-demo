@@ -68,7 +68,7 @@ paths:
 # Social Media endpoints
   #channels
   "/SocialMedia/Channels":
-    post:
+    get:
       tags: ["Social Media"]
       summary: Channels Summary
       responses:
@@ -98,7 +98,7 @@ paths:
              ?>            
   #calendar
   "/SocialMedia/Calendar":
-    post:
+    get:
       tags: ["Social Media"]
       summary: Calendar Summary
       responses:
@@ -111,7 +111,70 @@ paths:
       description:
        "**Authentication**: `Required`
        \n\n**Format** : `XML | JSON`"
-     #sample requests-channels
+      parameters:
+        - name: Channels
+          in: query
+          description:
+            "The channels from where the posts are gathered.\n\n
+            **Possible Values:** all | facebook | twitter | linkedin"    
+          required: false
+          schema:
+            type: String
+            default: all
+        - name: From
+          in: query
+          description:
+             "The from date which the reviews are returned. The filter must be `date` for this parameter to work.\n\n
+             **Possible Values:** (Date)"
+          required: true
+          schema:
+            pattern: ⠀ m/d/Y | Y-m-d
+            type: date
+            default: None
+
+        - name: To
+          in: query
+          description:
+             "The to date which the reviews are returned. The filter must be `date` for this parameter to work.\n\n
+             **Possible Values:** (Date)"
+          required: true
+          schema:
+            pattern: ⠀ m/d/Y | Y-m-d
+            type: date
+            default: None    
+        - name: IncludPposted
+          in: query
+          description:
+             "Include already scheduled posts inside the results.\n\n
+             **Possible Values:** `true | false`"
+          schema:
+            type: boolean
+            default: false
+        - name: Limit
+          in: query
+          description:
+             "Set your record limit number per page.\n\n
+             **Possible Values:** `Number`"
+          schema:
+            type: integer
+            default: 10
+        - name: Page
+          in: query
+          description:
+             "Set which page you wanna get.\n\n
+             **Possible Values:** `Number`"
+          schema:
+            type: integer
+            default: 1 
+        - name: Sort
+          in: query
+          description:
+             "Record Sorting.\n\n
+             **Possible Values:** `asc | desc`"
+          schema:
+            type: String
+            default: asc       
+     #sample requests-calendar
       x-codeSamples:
         - lang: 'CURL'
           source: |
@@ -130,9 +193,59 @@ paths:
             );
             $results = $app->getCalendar( $params );
             print_r($results);
-             ?>
-        
+             ?> 
+        # End calendar
 
+#social-stats
+  "/SocialMedia/Stats":
+    get:
+      description:
+         "**Authentication**: `Required`
+         \n\n**Format** : `XML | JSON`"
+      tags: ["Social Media"]
+      summary: Stats Summary
+      responses:
+         "200":
+           description: successful operation
+           content:
+            application/json:
+             schema:
+              $ref: "#/components/schemas/social-stats"
+         "400":
+            description: "Stats not found"    
+      parameters:
+        - name: channels
+          in: query
+          description:
+           "The channels where the posts are gathered from.\n\n
+           **Possible Values:** all | facebook | twitter | linkedin | pinterest"    
+          schema:
+            type: String
+            default: all
+        - name: sort
+          in: query
+          description:
+             "Record Sorting.\n\n**Possible Values:** asc | desc"
+          schema:
+            type: String
+            default: asc 
+      #sample requests-getpost
+      x-codeSamples:
+        - lang: 'CURL'
+          source: |
+           GET https://api.vbout.com/1/socialmedia/stats.json?key={YOUR_API_ID}&channels=facebook
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/SocialMediaWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new SocialMediaWS($user_key);
+             $params = array(
+                 'channels' => 'facebook',
+             );
+             $results = $app->getStats( $params );
+             print_r($results);
+             ?>         
 
    #getpost
   "/SocialMedia/GetPost":
@@ -536,16 +649,227 @@ components:
                  type: array
                  items:
                    type: object
+#social-stats
+    social-stats:
+       properties:
+        stats:        
+         type: object
+         example:  { 
+                   	"items": [    #removed stats:{ } in example inorder to succeed with no problems...
+                   	  {
+                   		"id": "2236",
+                   		"shortenurl": "A4",
+                   		"realurl": "http://munchies.com/index.php?route=information/contact&__vbtrk=NjkzNDowOnNvY2lhbG1lZGlhOmZhY2Vib29r&__vbtrk=MjgzNTowOnNvY2lhbG1lZGlhOnR3aXR0ZXI=",
+                   		"message": "http://vbout.com/goto/A4 click here",
+                   		"date": "1402401420",
+                   		"tracks": 9,
+                   		"clicks": {
+                   		  "facebook": "9"
+                   		}
+                   	  },
+                   	  {
+                   		"id": "2436",
+                   		"shortenurl": "Di",
+                   		"realurl": "http://www.munchie.com/?__vbtrk=NzkxNjowOnNvY2lhbG1lZGlhOmZhY2Vib29r",
+                   		"message": "Test leadscoring  https://www.vbout.com/goto/Di",
+                   		"date": "1408031400",
+                   		"tracks": 8,
+                   		"clicks": {
+                   		  "facebook": "8"
+                   		}
+                   	  },
+                   	  ...
+                   	]
+                     }
+                   
+          
+  
+
+
 
  # Social media /calendar
     social-calendar:
       type: object
       properties:
-        item:
+        calendar:
           type: object
           properties:
             count:
              description: count
              type: integer
-             example: "682"  
-  
+             example: "168"
+            items:
+             type: object
+             properties:
+              "2013-08-15":
+                type: object
+                properties:
+                 "1":
+                   type: object
+                   properties:
+                    id:
+                     type: integer
+                     description: id
+                     example: "2347"
+                    message:
+                      type: String
+                      description: Message
+                      example: "http://vbout.com/goto/b0 welcome my man ... how are you [delete url] http://vbout.com/goto/b2" 
+                    photo:
+                      type: object
+                      description: photo
+                      properties: 
+                       thumb: 
+                        description: thumbnail
+                        example: "http://www.kickstarter.com/images/compass/site/facebook_thumb.jpg"
+                       original: 
+                        description: original
+                        example: "http://www.kickstarter.com/images/compass/site/facebook_thumb.jpg"  
+                    channel: 
+                     type: object
+                     properties:
+                      network: 
+                       type: String
+                       description: Network
+                       example: "facebook"
+                      type: 
+                       type: String
+                       description: Type
+                       example: "page"
+                      id: 
+                       type: String
+                       description: id
+                       example: "510584708978405"
+                      name: 
+                       type: String
+                       description: network
+                       example: "Spotless TV"   
+                      date: 
+                       type: date
+                       description: network
+                       example: "08/15/2013 14:52 PM"   
+              "2013-08-16":
+                type: object
+                properties:
+                 "2":
+                   type: object
+                   properties:
+                    id:
+                     type: integer
+                     description: id
+                     example: "2366"
+                    message:
+                      type: String
+                      description: Message
+                      example: "test facebook headers"
+                    channel:
+                     type: object
+                     properties:
+                      network: 
+                       type: String
+                       description: Network
+                       example: "facebook"
+                      type: 
+                       type: String
+                       description: Type
+                       example: "page"
+                      id: 
+                       type: String
+                       description: id
+                       example: "510584708978405"
+                      name: 
+                       type: String
+                       description: network
+                       example: "Spotless TV"   
+                      date: 
+                       type: date
+                       description: network
+                       example: "08/16/2013 13:39 PM"
+                 "3":
+                    type: object
+                    properties:
+                     id:
+                      type: integer
+                      description: id
+                      example: "2367"
+                     message:
+                      type: String
+                      description: Message
+                      example: "test facebook post with url  http://vbout.com/goto/bz" 
+                     photo:
+                      type: object
+                      description: photo
+                      properties: 
+                       thumb: 
+                         description: thumbnail
+                         example: "https://www.facebook.com/images/fb_icon_325x325.png"
+                       original: 
+                         description: original
+                         example: "https://www.facebook.com/images/fb_icon_325x325.png" 
+                     channel: 
+                       type: object
+                       properties:
+                        network: 
+                         type: String
+                         description: Network
+                         example: "Facebook"
+                        type: 
+                          type: String
+                          description: Type
+                          example: "Page"
+                        id: 
+                          type: String
+                          description: id
+                          example: "510584708978405"
+                        name: 
+                          type: String
+                          description: network
+                          example: "Spotless TV"   
+                        date: 
+                          type: date
+                          description: network
+                          example: "08/16/2013 13:40 PM"    
+                 "4":
+                   type: object
+                   properties:
+                    id:
+                     type: integer
+                     description: id
+                     example: "2368"
+                    message:
+                      type: String
+                      description: Message
+                      example: "test all socials spiders  http://vbout.com/goto/bA"
+                    photo:
+                      type: object
+                      description: photo
+                      properties: 
+                       thumb: 
+                         description: thumbnail
+                         example: "http://www.domaintools.com/images/logos/dt-logo-gear-50x50.png"
+                       original: 
+                         description: original
+                         example: "http://www.domaintools.com/images/logos/dt-logo-gear-50x50.png"
+                       channel: 
+                         type: object
+                         properties:
+                          network: 
+                           type: String
+                           description: Network
+                           example: "Facebook"
+                          type: 
+                           type: String
+                           description: Type
+                           example: "Page"
+                          id: 
+                           type: String
+                           description: id
+                           example: "510584708978405"
+                          name: 
+                           type: String
+                           description: network
+                           example: "Spotless TV"   
+                          date: 
+                           type: date
+                           description: network
+                           example: "08/16/2013 13:49 PM"    
