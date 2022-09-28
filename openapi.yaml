@@ -11,10 +11,7 @@ info:
     - API Key
     - An Application Key is generated from your Account Settings and activated through Vbout Connect. This key gives limited 
     access to your account and can be deleted whenever you want to prevent access.
-  x-logo:
-   url: 'https://i.im.ge/2022/09/15/1lJujf.vbout-logo.png'
-   backgroundColor: '#FFFFFF'
-   altText: Vbout logo 
+  summary: Vbout's API documentation
 servers:
   - url: 'https://api.vbout.com/1'
     description: Resource URL
@@ -90,7 +87,7 @@ paths:
     parameters: []
   /SocialMedia/Channels:
     get:
-      summary: Get Channels Summary
+      summary: Channels Summary
       tags:
         - Social Media
       responses:
@@ -200,7 +197,7 @@ paths:
             ?>
   /SocialMedia/Calendar:
     get:
-      summary: Get Calendar Summary
+      summary: Calendar Summary
       tags:
         - Social Media
       responses:
@@ -435,7 +432,7 @@ paths:
             ?>
   /SocialMedia/Stats:
     get:
-      summary: Get Stats Summary
+      summary: Stats Summary
       tags:
         - Social Media
       responses:
@@ -527,9 +524,9 @@ paths:
             $results = $app->getStats( $params );
             print_r($results);
             ?>
-  SocialMedia/GetPost:
+  /SocialMedia/GetPost:
     get:
-      summary: Get Post Summary
+      summary: Post Summary
       tags:
         - Social Media
       responses:
@@ -720,40 +717,6 @@ paths:
              $results = $app->AddNewpost( $params );
              print_r($results);
              ?>
-  /SocialMedia/DeletePost:
-    delete:
-      summary: Delete Post Summary
-      operationId: delete-SocialMedia-DeletePost
-      responses:
-        '200':
-          description: Successful operation
-      description: |-
-        **Authentication:** `Required`  
-          
-        **Format:** `XML | JSON`
-      x-codeSamples:
-        - lang: cURL
-          source: |
-            POST https://api.vbout.com/1/socialmedia/deletepost.json?key={YOUR_API_ID}
-              id=1
-        - lang: PHP
-          source: "<?php\nrequire_once('../PATH/TO/services/SocialMediaWS.php');\t\n$user_key = array('api_key' => '{YOUR_API_KEY}')\t\n$app = new SocialMediaWS($user_key);\n$id = '1';\n$results = $app->removePost($id);\nprint_r($results);\n?>\n"
-      parameters:
-        - schema:
-            type: integer
-            default: none
-          in: query
-          name: id
-          required: true
-          description: 'ID of the post message to be deleted.<br>**Possible Values:**(ID)'
-        - schema:
-            type: string
-            default: none
-          in: query
-          name: channel
-          description: 'The channels which the post will be sent to.<br>**Possible Values:** facebook | twitter | linkedin'
-      tags:
-        - Social Media
   /SocialMedia/EditPost:
     post:
       summary: Edit Post Summary
@@ -801,6 +764,610 @@ paths:
           in: query
           name: scheduleddatetime
           description: 'Date/Time of the post to be scheduled<br>**Possible values:** (Datetime)'
+  /SocialMedia/DeletePost:
+    delete:
+      summary: Delete Post Summary
+      operationId: delete-SocialMedia-DeletePost
+      responses:
+        '200':
+          description: Successful operation
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            POST https://api.vbout.com/1/socialmedia/deletepost.json?key={YOUR_API_ID}
+              id=1
+        - lang: PHP
+          source: "<?php\nrequire_once('../PATH/TO/services/SocialMediaWS.php');\t\n$user_key = array('api_key' => '{YOUR_API_KEY}')\t\n$app = new SocialMediaWS($user_key);\n$id = '1';\n$results = $app->removePost($id);\nprint_r($results);\n?>\n"
+      parameters:
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: id
+          required: true
+          description: 'ID of the post message to be deleted.<br>**Possible Values:**(ID)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          name: channel
+          description: 'The channels which the post will be sent to.<br>**Possible Values:** facebook | twitter | linkedin'
+      tags:
+        - Social Media
+  /EmailMarketing/Campaigns:
+    get:
+      summary: Get Campaigns Summary
+      tags:
+        - Email Marketing
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaigns:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      items:
+                        type: object
+                        properties:
+                          Draft:
+                            type: object
+                            properties:
+                              data:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    subject:
+                                      type: string
+                                    message:
+                                      type: string
+                                    replyto:
+                                      type: string
+                                    from_email:
+                                      type: string
+                                    from_name:
+                                      type: string
+                                    creation_date:
+                                      type: string
+                x-examples:
+                  example-1:
+                    campaigns:
+                      count: 1
+                      items:
+                        Draft:
+                          data:
+                            - id: '889'
+                              subject: 'Hop Hop, Happy Fridays have never been happier '
+                              message: ...
+                              replyto: info@mycompany.com
+                              from_email: no-reply@mycompany.com
+                              from_name: Rick's Club American
+                              creation_date: '11/04/2014 16:33'
+              examples:
+                example-1:
+                  value:
+                    campaigns:
+                      count: 1
+                      items:
+                        Draft:
+                          data:
+                            - id: '889'
+                              subject: 'Hop Hop, Happy Fridays have never been happier '
+                              message: ...
+                              replyto: info@mycompany.com
+                              from_email: no-reply@mycompany.com
+                              from_name: Rick's Club American
+                              creation_date: '11/04/2014 16:33'
+      operationId: get-EmailMarketing-Campaigns
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: string
+            default: all
+          in: query
+          name: filter
+          description: 'The timeline during which the reviews are returned.<br>**Possible values:**  all | sent | scheduled | draft | automation'
+          required: true
+        - schema:
+            type: string
+            default: none
+            pattern: m/d/Y | Y-m-d
+            format: date
+          in: query
+          name: from
+          description: 'The from date which the reviews are returned. The filter must be ''date'' for this parameter to work.<br>**Possible values:**   (Date)'
+        - schema:
+            type: string
+            format: date
+            pattern: m/d/Y | Y-m-d
+            default: none
+          in: query
+          description: 'The from date which the reviews are returned. The filter must be ''date'' for this parameter to work.<br>**Possible values:**  : (Date)  '
+          name: to
+        - schema:
+            type: number
+            default: '10'
+          in: query
+          name: limit
+          description: 'Set your record limit number per page.<br>**Possible values:**  :(Number)'
+        - schema:
+            type: number
+            default: 1
+          in: query
+          name: page
+          description: 'Set which page you wanna get.<br>**Possible values:**  :(Number)'
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            GET https://api.vbout.com/1/emailmarketing/campaigns.json?key={YOUR_API_ID}
+        - lang: PHP
+          source: |
+            <?php
+               require_once('../PATH/TO/services/EmailMarketingWS.php');
+               $user_key = array('api_key' => '{YOUR_API_KEY}');
+               $app = new EmailMarketingWS($user_key);
+               $params = array(
+               'filter' => 'all',
+               'limit' => '10',
+                   );
+                 $results = $app->getCampaigns( $params );
+                 print_r($results);
+                ?>
+                 
+  /EmailMarketing/GetCampaign:
+    get:
+      summary: Campaign Summary
+      tags:
+        - Email Marketing
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      subject:
+                        type: string
+                      message:
+                        type: string
+                      replyto:
+                        type: string
+                      from_email:
+                        type: string
+                      from_name:
+                        type: string
+                      creation_date:
+                        type: string
+                x-examples:
+                  example-1:
+                    item:
+                      id: '889'
+                      subject: Reservations were never that easy!
+                      message: ...
+                      replyto: no-reply@lofthotels.com
+                      from_email: reservations@lofthotels.com
+                      from_name: Loft Hotels
+                      creation_date: '11/04/2014 16:33'
+              examples:
+                example-1:
+                  value:
+                    item:
+                      id: '889'
+                      subject: Reservations were never that easy!
+                      message: ...
+                      replyto: no-reply@lofthotels.com
+                      from_email: reservations@lofthotels.com
+                      from_name: Loft Hotels
+                      creation_date: '11/04/2014 16:33'
+      operationId: get-EmailMarketing-GetCampaign
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: ' id'
+          description: 'The ID of the campaign to return.<br>**Possible Values:**  (ID)'
+          required: true
+        - schema:
+            type: string
+            default: standard
+          in: query
+          name: type
+          description: 'The type of the campaign.<br>**Possible Values:**  standard | automated'
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            GET https://api.vbout.com/1/emailmarketing/getcampaign.json?key={YOUR_API_ID}&id=889&type=standard
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/EmailMarketingWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new EmailMarketingWS($user_key);
+             $params = array(
+                 'id' => '889',
+                 'type' => 'standard',
+             );
+             $results = $app->getCampaign( $params );
+             print_r($results);
+             ?>
+  /EmailMarketing/Stats:
+    get:
+      summary: Stats Summary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaign:
+                    type: object
+                    properties:
+                      stats:
+                        type: object
+                        properties:
+                          open:
+                            type: string
+                          unopened:
+                            type: string
+                          bounced:
+                            type: string
+                          unsubscribed:
+                            type: string
+                      clicks:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            message:
+                              type: string
+                            clickers:
+                              type: array
+                              items:
+                                type: string
+                x-examples:
+                  example-1:
+                    campaign:
+                      stats:
+                        open: 1 (33.33%)
+                        unopened: 2 (66.67%)
+                        bounced: 0 (0%)
+                        unsubscribed: 11 (366.67%)
+                      clicks:
+                        - url: 'http://www.netalinissim.com/img/logo.jpg?1400686763'
+                          message: ''
+                        - url: 'http://www.netalinissim.com'
+                          message: ''
+                          clickers:
+                            - imadrajab@gmail.com(2 clicks)
+              examples:
+                example-1:
+                  value:
+                    campaign:
+                      stats:
+                        open: 1 (33.33%)
+                        unopened: 2 (66.67%)
+                        bounced: 0 (0%)
+                        unsubscribed: 11 (366.67%)
+                      clicks:
+                        - url: 'http://www.netalinissim.com/img/logo.jpg?1400686763'
+                          message: ''
+                        - url: 'http://www.netalinissim.com'
+                          message: ''
+                          clickers:
+                            - imadrajab@gmail.com(2 clicks)
+      operationId: get-EmailMarketing-Stats
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: id
+          description: 'The ID of the campaign to return.<br>**Possible values:**  (ID)  '
+          required: true
+        - schema:
+            type: string
+            default: standard
+          in: query
+          name: type
+          description: 'The type of the campaign.<br>**Possible values:**  standard | automated'
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            GET https://api.vbout.com/1/emailmarketing/getcampaign.json?key={YOUR_API_ID}&id=889&type=standard
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/EmailMarketingWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new EmailMarketingWS($user_key);
+             $params = array(
+                 'id' => '889',
+                 'type' => 'standard',
+             );
+             $results = $app->getCampaign( $params );
+             print_r($results);
+             ?>
+      tags:
+        - Email Marketing
+  /EmailMarketing/AddCampaign:
+    post:
+      summary: Campaign Summary
+      operationId: post-EmailMarketing-AddCampaign
+      responses: {}
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: string
+            default: none
+          in: query
+          name: name
+          required: true
+          description: 'The name of the campaign.<br>**Possible values:**  (Text)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: subject
+          description: 'The subject line for the campaign.<br>**Possible values:**  (Text)'
+        - schema:
+            type: string
+            default: none
+            format: email
+          in: query
+          required: true
+          name: fromemail
+          description: 'The from email of the campaign.<br>**Possible values:**  (Email)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: from_name
+          description: 'The from email of the campaign.<br>**Possible values:**  (Text)'
+        - schema:
+            type: string
+            default: none
+            format: email
+          in: query
+          required: true
+          name: reply_to
+          description: 'The reply to email of the campaign..<br>**Possible values:** (Email)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: body
+          description: 'Message body.<br>**Possible values:** (Text)'
+        - schema:
+            type: string
+            default: standard
+          in: query
+          name: type
+          description: 'The type of the campaign.<br>**Possible values:** standard | automated'
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: isscheduled
+          description: 'The flag to schedule the campaign for the future.<br>**Possible values:**  true | false'
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: isdraft
+          description: 'The flag to set the campaign to draft.<br>**Possible values:**  true | false'
+        - schema:
+            type: string
+            format: date
+            pattern: m/d/Y | Y-m-d
+            default: none
+          in: query
+          name: scheduled_datetime
+          description: 'The date and time to schedule the campaign.<br>**Possible values:**  (Date)'
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: audiences
+          description: 'Ds of audience campaign recipients.(comma separated)<br>**Possible values:**  (IDs)'
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: lists
+          description: 'IDs of list campaign recipients.(comma separated)<br>**Possible values:**  (IDs)'
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            POST https://api.vbout.com/1/emailmarketing/addcampaign.json?key={YOUR_API_ID}
+               name=Test Campaign
+               subject=Hello World
+               fromemail=info@example.com
+               body=Message body
+               type=standard
+               isdraft=true
+        - lang: PHP
+          source: |
+            <?php
+            require_once('../PATH/TO/services/EmailMarketingWS.php');
+            $user_key = array('api_key' => '{YOUR_API_KEY}');
+            $app = new EmailMarketingWS($user_key);
+            $params = array(
+                'name' => 'Test Campaign',
+                'subject' => 'Hello World',
+                'fromemail' => 'info@example.com',
+                'body' => 'Message body',
+                'type' => 'standard',
+                'isdraft' => 'true',
+            );
+            $results = $app->addNewCampaign( $params );
+            print_r($results);
+            ?>
+      tags:
+        - Email Marketing
+  /EmailMarketing/EditCampaign:
+    post:
+      summary: Edit Campaign
+      operationId: post-EmailMarketing-EditCampaign
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: id
+          required: true
+          description: 'The ID of the campaign.<br>**Possible values:**  (ID)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: name
+          description: 'The name of the campaign.<br>**Possible values:**  (Text)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: subject
+          description: 'The subject line of the campaign.<br>**Possible values:**  (Text)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: body
+          description: 'Message body.<br>**Possible values:** (Text)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          required: true
+          name: fromemail
+          description: 'The from name of the campaign.<br>**Possible values:** (Text)'
+        - schema:
+            type: string
+            default: none
+          in: query
+          name: from_name
+          required: true
+          description: 'The from name of the campaign.<br>**Possible values:** (Text)'
+        - schema:
+            type: string
+            default: none
+            format: email
+          in: query
+          name: reply_to
+          description: 'The reply to email of the campaign..<br>**Possible values:**(Email)'
+          required: true
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: isscheduled
+          description: 'The flag to schedule the campaign for the future.<br>**Possible values:**true | false'
+        - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          name: isdraft
+          description: 'The flag to set the campaign to draft.<br>**Possible values:** true | false'
+        - schema:
+            type: string
+            pattern: m/d/Y | Y-m-d
+            default: none
+            format: date-time
+          in: query
+          name: scheduled_datetime
+          description: The date time to schedule the campaign.
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: audiences
+          description: 'IDs of audience campaign recipients.(comma separated)<br>**Possible values:** (IDs)'
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: lists
+          description: 'IDs of list campaign recipients.(comma separated)<br>**Possible values:** (IDs)'
+        - schema:
+            type: string
+            default: standard
+          in: query
+          name: type
+          description: 'The type of the campaign.<br>**Possible values:** standard | automated'
+      tags:
+        - Email Marketing
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            POST https://api.vbout.com/1/emailmarketing/editcampaign.json?key={YOUR_API_ID}
+               name=Test Campaign
+               subject=Hello World
+               fromemail=info@example.com
+               body=Here the content of your message
+               type=standard
+        - lang: PHP
+          source: |
+            <?php
+            require_once('../PATH/TO/services/EmailMarketingWS.php');
+            $user_key = array('api_key' => '{YOUR_API_KEY}');
+            $app = new EmailMarketingWS($user_key);
+            $params = array(
+                'name' => 'Test Campaign',
+                'subject' => 'Hello World',
+                'fromemail' => 'info@example.com',
+                'body' => 'Here the content of your message',
+                'type' => 'standard',
+            );
+            $results = $app->updateCampaign( $params );
+            print_r($results);
+            ?>
 components:
   schemas:
     User:
