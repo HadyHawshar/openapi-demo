@@ -11,7 +11,7 @@ info:
     - API Key
     - An Application Key is generated from your Account Settings and activated through Vbout Connect. This key gives limited 
     access to your account and can be deleted whenever you want to prevent access.
-  summary: Vbout's API documentation
+  summary: Vbout's API documentation-Prototype
 servers:
   - url: 'https://api.vbout.com/1'
     description: Resource URL
@@ -800,7 +800,7 @@ paths:
         - Social Media
   /EmailMarketing/Campaigns:
     get:
-      summary: Get Campaigns Summary
+      summary: Campaigns Summary
       tags:
         - Email Marketing
       responses:
@@ -873,7 +873,7 @@ paths:
       operationId: get-EmailMarketing-Campaigns
       description: |-
         **Authentication:** `Required`  
-          
+          - - -
         **Format:** `XML | JSON`
       parameters:
         - schema:
@@ -897,14 +897,14 @@ paths:
             pattern: m/d/Y | Y-m-d
             default: none
           in: query
-          description: 'The from date which the reviews are returned. The filter must be ''date'' for this parameter to work.<br>**Possible values:**  : (Date)  '
+          description: 'The from date which the reviews are returned. The filter must be ''date'' for this parameter to work.<br>**Possible values:**  (Date)  '
           name: to
         - schema:
             type: number
             default: '10'
           in: query
           name: limit
-          description: 'Set your record limit number per page.<br>**Possible values:**  :(Number)'
+          description: 'Set your record limit number per page.<br>**Possible values:**  (Number)'
         - schema:
             type: number
             default: 1
@@ -1246,7 +1246,7 @@ paths:
         - Email Marketing
   /EmailMarketing/EditCampaign:
     post:
-      summary: Edit Campaign
+      summary: Edit Campaign Summary
       operationId: post-EmailMarketing-EditCampaign
       description: |-
         **Authentication:** `Required`  
@@ -1368,6 +1368,50 @@ paths:
             $results = $app->updateCampaign( $params );
             print_r($results);
             ?>
+    parameters: []
+  /EmailMarketing/DeleteCampaign:
+    delete:
+      summary: Delete Campaign  Summary
+      operationId: delete-EmailMarketing-DeleteCampaign
+      description: |-
+        **Authentication:** `Required`  
+          
+        **Format:** `XML | JSON`
+      parameters:
+        - schema:
+            type: integer
+            default: none
+          in: query
+          name: id
+          required: true
+          description: 'The ID of the campaign to delete.<br>**Possible values:**   (ID) '
+        - schema:
+            type: string
+            default: standard
+          in: query
+          name: type
+          description: 'The type of the campaign.<br>**Possible values:**  standard | automated'
+      x-codeSamples:
+        - lang: cURL
+          source: |
+            POST https://api.vbout.com/1/emailmarketing/deletecampaign.json?key={YOUR_API_ID}
+              id=886
+              type=standard
+        - lang: PHP
+          source: |
+            <?php
+             require_once('../PATH/TO/services/EmailMarketingWS.php');
+             $user_key = array('api_key' => '{YOUR_API_KEY}');
+             $app = new EmailMarketingWS($user_key);
+             $params = array(
+                 'id' => '886',
+                 'type' => 'standard',
+             );
+             $results = $app->removeCampaign( $params );
+             print_r($results);
+            ?>
+      tags:
+        - Email Marketing
 components:
   schemas:
     User:
