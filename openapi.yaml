@@ -18,7 +18,7 @@ servers:
 paths:
   /App/Me:
     get:
-      summary: Application summary
+      summary: Application
       tags:
         - Application
       operationId: get-App-Me
@@ -87,7 +87,7 @@ paths:
     parameters: []
   /SocialMedia/Channels:
     get:
-      summary: Channels Summary
+      summary: Channels
       tags:
         - Social Media
       responses:
@@ -197,7 +197,7 @@ paths:
             ?>
   /SocialMedia/Calendar:
     get:
-      summary: Calendar Summary
+      summary: Calendar
       tags:
         - Social Media
       responses:
@@ -432,7 +432,7 @@ paths:
             ?>
   /SocialMedia/Stats:
     get:
-      summary: Stats Summary
+      summary: Stats
       tags:
         - Social Media
       responses:
@@ -526,7 +526,7 @@ paths:
             ?>
   /SocialMedia/GetPost:
     get:
-      summary: Post Summary
+      summary: Post
       tags:
         - Social Media
       responses:
@@ -622,7 +622,7 @@ paths:
     parameters: []
   /SocialMedia/AddPost:
     post:
-      summary: Add Post Summary
+      summary: Add Post
       operationId: post-SocialMedia-AddPost
       responses:
         '200':
@@ -719,7 +719,7 @@ paths:
              ?>
   /SocialMedia/EditPost:
     post:
-      summary: Edit Post Summary
+      summary: Edit Post
       operationId: post-SocialMedia-EditPost
       responses: {}
       tags:
@@ -766,7 +766,7 @@ paths:
           description: 'Date/Time of the post to be scheduled<br>**Possible values:** (Datetime)'
   /SocialMedia/DeletePost:
     delete:
-      summary: Delete Post Summary
+      summary: Delete Post
       operationId: delete-SocialMedia-DeletePost
       responses:
         '200':
@@ -800,7 +800,7 @@ paths:
         - Social Media
   /EmailMarketing/Campaigns:
     get:
-      summary: Campaigns Summary
+      summary: Campaigns
       tags:
         - Email Marketing
       responses:
@@ -931,7 +931,7 @@ paths:
                  
   /EmailMarketing/GetCampaign:
     get:
-      summary: Campaign Summary
+      summary: Campaign
       tags:
         - Email Marketing
       responses:
@@ -1125,7 +1125,7 @@ paths:
         - Email Marketing
   /EmailMarketing/AddCampaign:
     post:
-      summary: Add Campaign Summary
+      summary: Add Campaign
       operationId: post-EmailMarketing-AddCampaign
       responses: {}
       description: |-
@@ -1246,7 +1246,7 @@ paths:
         - Email Marketing
   /EmailMarketing/EditCampaign:
     post:
-      summary: Edit Campaign Summary
+      summary: Edit Campaign
       operationId: post-EmailMarketing-EditCampaign
       description: |-
         **Authentication:** `Required`  
@@ -1371,7 +1371,7 @@ paths:
     parameters: []
   /EmailMarketing/DeleteCampaign:
     delete:
-      summary: Delete Campaign  Summary
+      summary: Delete Campaign
       operationId: delete-EmailMarketing-DeleteCampaign
       description: |-
         **Authentication:** `Required`  
