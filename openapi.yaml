@@ -801,8 +801,6 @@ paths:
   /EmailMarketing/Campaigns:
     get:
       summary: Campaigns
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -929,11 +927,11 @@ paths:
                  print_r($results);
                 ?>
                  
+      tags:
+        - Email Marketing
   /EmailMarketing/GetCampaign:
     get:
       summary: Campaign
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -1016,6 +1014,8 @@ paths:
              $results = $app->getCampaign( $params );
              print_r($results);
              ?>
+      tags:
+        - Email Marketing
   /EmailMarketing/Stats:
     get:
       summary: Stats
@@ -1341,8 +1341,6 @@ paths:
           in: query
           name: type
           description: 'The type of the campaign.<br>**Possible values:** standard | automated'
-      tags:
-        - Email Marketing
       x-codeSamples:
         - lang: cURL
           source: |
@@ -1368,6 +1366,8 @@ paths:
             $results = $app->updateCampaign( $params );
             print_r($results);
             ?>
+      tags:
+        - Email Marketing
     parameters: []
   /EmailMarketing/DeleteCampaign:
     delete:
@@ -1494,8 +1494,6 @@ paths:
           name: ' listid'
           description: 'The ID of the list to return its contacts.<br>**Possible values:**  (IDs)'
           required: true
-      tags:
-        - Email Marketing
       x-codeSamples:
         - lang: cURL
           source: |
@@ -1510,11 +1508,11 @@ paths:
             $results = $app->getMyContacts($listid);
             print_r($results);
             ?>
+      tags:
+        - Contact
   /EmailMarketing/GetContactsByPhoneNumber:
     get:
       summary: Contacts By Phone Number
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -1606,11 +1604,11 @@ paths:
             $results = $app->getContactsByPhoneNumber($phone, $listid);
             print_r($results);
             ?>
+      tags:
+        - Contact
   /EmailMarketing/GetContactByEmail:
     get:
       summary: Contact By Email
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -1681,11 +1679,11 @@ paths:
           in: query
           name: listid
           description: 'The List id of which this contact does belong to.**Possible values:**(ID)'
+      tags:
+        - Contact
   /EmailMarketing/GetContact:
     get:
       summary: Contact
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -1748,13 +1746,15 @@ paths:
             $results = $app->getMyContact($id);
             print_r($results);
             ?>
+      tags:
+        - Contact
     parameters: []
   /EmailMarketing/AddContact:
     post:
       summary: Add Contact
       operationId: post-EmailMarketing-AddContact
       tags:
-        - Email Marketing
+        - Contact
       description: |-
         **Authentication:** `Required`    
           - - -  
@@ -1812,7 +1812,7 @@ paths:
       summary: Edit Contact
       operationId: post-EmailMarketing-EditContact
       tags:
-        - Email Marketing
+        - Contact
       description: |-
         **Authentication:** `Required`    
           - - -  
@@ -1892,7 +1892,7 @@ paths:
         **Note:** All emails having the same email text available in the provided list will be updated if exists (case email is not required).      
           
       tags:
-        - Email Marketing
+        - Contact
       parameters:
         - schema:
             type: string
@@ -1956,7 +1956,7 @@ paths:
       summary: Delete Contact
       operationId: delete-EmailMarketing-DeleteContact
       tags:
-        - Email Marketing
+        - Contact
       description: |-
         **Authentication:** `Required`    
           - - -  
@@ -2007,7 +2007,7 @@ paths:
       summary: Move Contact
       operationId: post-EmailMarketing-MoveContact
       tags:
-        - Email Marketing
+        - Contact
       description: |-
         **Authentication:** `Required`    
           - - -  
@@ -2059,7 +2059,7 @@ paths:
     get:
       summary: Contact Timeline
       tags:
-        - Email Marketing
+        - Contact
       responses:
         '200':
           description: Successful operation
@@ -5228,3 +5228,5 @@ x-logo:
   url: 'https://i.im.ge/2022/09/15/1lJujf.vbout-logo.png'
   backgroundColor: '#FFFFFF'
   altText: Vbout logo
+x-webhooks:
+  $ref: openapi.yaml#/paths/~1Webhook/Delete
