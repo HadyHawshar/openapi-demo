@@ -2340,8 +2340,6 @@ paths:
   /GetContactTimelineByEmailAddress:
     get:
       summary: Contact Timeline By Email Address
-      tags:
-        - Email Marketing
       responses:
         '200':
           description: Successful operation
@@ -2604,6 +2602,8 @@ paths:
         - lang: cURL
           source: |
             GET https://api.vbout.com/1/emailmarketing/getcontacttimelinebyemailaddress.json?key={YOUR_API_ID}&id=3
+      tags:
+        - Contact
   /EmailMarketing/GetAudiences:
     get:
       summary: Audiences
@@ -5069,13 +5069,13 @@ paths:
           required: true
         - schema:
             type: string
-            default: Non
+            default: None
           in: query
           name: business_vbout_name
           description: 'The business VBOUT name.<br>**Possible values:**  (Text)'
         - schema:
             type: number
-            default: Non
+            default: None
           in: query
           name: plan_id
           description: 'The custom plan id.<br>**Possible values:**  (Number)'
@@ -5170,7 +5170,7 @@ paths:
       parameters:
         - schema:
             type: integer
-            default: Non
+            default: None
           in: query
           name: id
           description: 'The ID of the sub-account.<br>**Possible values:**   (ID)'
