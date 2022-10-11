@@ -5123,7 +5123,7 @@ paths:
           description: 'Pay using agency saved card on success signup, and save the card to the newly created account..<br>**Possible values:**  0 | 1'
   /GetSubAccountAutoLogin:
     post:
-      summary: Subscriber
+      summary: Subscriber Account Auto Login(test)
       operationId: post-GetSubAccountAutoLogin
       tags:
         - Account
