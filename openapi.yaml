@@ -2594,7 +2594,7 @@ paths:
           required: true
         - schema:
             type: string
-            default: Non
+            default: None
           in: query
           name: Include
           description: 'Comma separated keys to return other details with the timeline activities..**Possible values:**  utm | automated'
@@ -2991,7 +2991,7 @@ paths:
           description: 'The default subscription subject.<br>**Possible values:**  (Text)'
         - schema:
             type: string
-            default: Non
+            default: None
             format: email
           in: query
           name: reply_to
@@ -3095,7 +3095,7 @@ paths:
       parameters:
         - schema:
             type: integer
-            default: Non
+            default: None
           in: query
           name: id
           required: true
